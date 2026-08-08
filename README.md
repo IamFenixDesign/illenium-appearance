@@ -1,5 +1,13 @@
 # illenium-appearance
 
+-- Features on this edit
+ -- Free camera option
+ -- Specific camera position on each bone of native FiveM
+ -- Better design
+ -- Customization UI in game
+ -- Config to choose contextmenu o menu from ox_lib
+ -- Menu position on config
+
 A replacement for clothing resources for various frameworks
 
 <div align='center'><h1><a href='https://docs-illenium-dev-phem.vercel.app/'>Documentation</a></h3></div>
@@ -7,6 +15,8 @@ A replacement for clothing resources for various frameworks
 
 <img src="https://i.imgur.com/EkHVJhL.jpeg" alt="illenium-appearance" />
 <img src="https://i.imgur.com/uB7a8p6.jpeg" alt="illenium-appearance color edits" />
+<img src="https://i.imgur.com/uB7a8p6.jpeg" alt="illenium-appearance with camera" />
+
 
 Discord: https://discord.com/invite/VSJmDejjK6
 
