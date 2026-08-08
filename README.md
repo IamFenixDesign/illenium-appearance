@@ -53,7 +53,7 @@ https://streamable.com/qev2h7
 
 ## Documentation
 
-Read the docs here: https://docs.illenium.dev
+Read the docs here: https://docs-illenium-dev-phem.vercel.app/
 
 ## Credits
 - Original Script: https://github.com/pedr0fontoura/fivem-appearance
