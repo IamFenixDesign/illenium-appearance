@@ -2,14 +2,12 @@
 
 A replacement for clothing resources for various frameworks
 
-<div align='center'><h1><a href='https://docs.illenium.dev/free-resources/illenium-appearance/installation/'>Documentation</a></h3></div>
+<div align='center'><h1><a href='https://docs-illenium-dev-phem.vercel.app/'>Documentation</a></h3></div>
 <br>
 
 <img src="https://i.imgur.com/ltLSMmh.png" alt="illenium-appearance with Tattoos" />
 
-Discord: https://discord.illenium.dev
-
-**Note:** Do **NOT** use the `main` branch as it will most likely be broken for you. NO SUPPORT WILL BE PROVIDED IF YOU USE IT. Only use the [latest release](https://github.com/iLLeniumStudios/illenium-appearance/releases/latest)
+Discord: https://discord.com/invite/VSJmDejjK6
 
 ## Supported Frameworks
 
