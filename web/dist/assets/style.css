@@ -1,0 +1,638 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --fenix-accent: #7c6cf0;
+  --fenix-accent-strong: #6b5ce0;
+  --fenix-accent-soft: #2a2840;
+  --fenix-accent-text: #ddd6fe;
+  --fenix-surface: #1c1c24;
+  --fenix-surface-strong: #24242e;
+  --fenix-screen: #111116;
+  --fenix-field: #18181f;
+  --fenix-field-hover: #22222c;
+  --fenix-border: #32323e;
+  --fenix-text: #f2f2f6;
+  --fenix-muted: #9494a8;
+  --fenix-danger: #ef4444;
+  --fenix-danger-bg: #2a1818;
+  --fenix-danger-border: #5c2828;
+  --fenix-ok: #22c55e;
+  --fenix-ok-bg: #15251a;
+  --fenix-ok-border: #2a5a38;
+  --fenix-radius: 10px;
+  --fenix-radius-sm: 8px;
+  --fenix-radius-xs: 6px;
+  --fenix-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --fenix-menu-align: center;
+  --fenix-menu-pad-top: 0px;
+  --fenix-menu-pad-bottom: 0px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+body {
+  color: var(--fenix-text);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* ── UI buttons (no inline color; skip modal confirm) ── */
+button:not([style*="background-color"]):not([style*="backgroundColor"]):not([data-fenix]) {
+  border-radius: var(--fenix-radius-sm) !important;
+  box-shadow: none !important;
+  border: 1px solid var(--fenix-border) !important;
+  background: var(--fenix-surface) !important;
+  color: var(--fenix-text) !important;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s var(--fenix-spring) !important;
+}
+
+button:not([style*="background-color"]):not([style*="backgroundColor"]):not([data-fenix]):hover {
+  background: var(--fenix-field-hover) !important;
+  border-color: var(--fenix-border) !important;
+  transform: none !important;
+}
+
+button:not([style*="background-color"]):not([style*="backgroundColor"]):not([data-fenix]):active {
+  transform: scale(0.96) !important;
+}
+
+/* Confirm modal Sí / No */
+@keyframes fenixModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+button[data-fenix="decline"] {
+  flex: 1 !important;
+  height: 42px !important;
+  border-radius: var(--fenix-radius-sm) !important;
+  border: 1px solid var(--fenix-border) !important;
+  background: var(--fenix-field) !important;
+  color: var(--fenix-muted) !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+button[data-fenix="decline"]:hover {
+  background: var(--fenix-field-hover) !important;
+  border-color: #3e3e4c !important;
+  color: var(--fenix-text) !important;
+}
+
+button[data-fenix="accept"] {
+  flex: 1 !important;
+  height: 42px !important;
+  border-radius: var(--fenix-radius-sm) !important;
+  border: 1px solid var(--fenix-accent) !important;
+  background: var(--fenix-accent-soft) !important;
+  color: var(--fenix-accent-text) !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+button[data-fenix="accept"]:hover {
+  background: #322f4a !important;
+  border-color: #8b7cf5 !important;
+  color: #ede9fe !important;
+}
+
+button[data-fenix="accept"]:active,
+button[data-fenix="decline"]:active {
+  transform: scale(0.97) !important;
+}
+
+/* Color swatches */
+button[style*="background-color"],
+button[style*="backgroundColor"] {
+  box-shadow: none !important;
+  background-image: none !important;
+  color: transparent !important;
+  border-radius: 6px !important;
+}
+
+button[style*="background-color"]:hover,
+button[style*="backgroundColor"]:hover {
+  filter: brightness(1.1);
+  transform: none !important;
+}
+
+button:focus-visible,
+[class*="TattooDropdown"][class*="__control"]:focus-within {
+  outline: 2px solid var(--fenix-accent) !important;
+  outline-offset: 2px;
+}
+
+input:focus-visible {
+  outline: none !important;
+}
+
+/* ── Inputs ── */
+input[type="number"] {
+  color: var(--fenix-text) !important;
+  background: var(--fenix-field) !important;
+  border: 1px solid var(--fenix-border) !important;
+  border-radius: var(--fenix-radius-xs) !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="number"]:focus,
+input[type="number"]:focus-visible,
+input[type="number"]:active {
+  color: var(--fenix-text) !important;
+  background: var(--fenix-field) !important;
+  border-color: var(--fenix-border) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"],
+input[type="range"]:focus,
+input[type="range"]:focus-visible {
+  height: 6px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--fenix-border) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  border: 2px solid #fff !important;
+  border-radius: 50% !important;
+  background: var(--fenix-accent) !important;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+
+/* ── Menu open (same feel as fenix-dealership payment method) ── */
+@keyframes fenixMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ── Dropdowns ── */
+[class*="TattooDropdown"][class*="__control"],
+[class*="TattooDropdown"][class*="__menu"],
+[class*="TattooDropdown"][class*="__menu-list"] {
+  color: var(--fenix-text) !important;
+  background: var(--fenix-surface) !important;
+  border: 1px solid var(--fenix-border) !important;
+  border-radius: var(--fenix-radius-sm) !important;
+  box-shadow: none !important;
+}
+
+[class*="TattooDropdown"][class*="__menu"] {
+  transform-origin: top center;
+  animation: fenixMenuIn 0.3s var(--fenix-spring) !important;
+}
+
+[class*="TattooDropdown"][class*="__option"] {
+  border-radius: var(--fenix-radius-xs) !important;
+}
+
+[class*="TattooDropdown"][class$="__option"]:hover,
+[class*="TattooDropdown"][class*="__option--is-focused"] {
+  background: var(--fenix-accent-soft) !important;
+}
+
+[class*="TattooDropdown"][class*="__option--is-selected"] {
+  color: var(--fenix-accent-text) !important;
+  background: var(--fenix-accent-soft) !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--fenix-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fenix-accent);
+}
+
+::selection {
+  color: #fff;
+  background: var(--fenix-accent);
+}
+
+/* ══════════════════════════════════════
+   Left panel — option cards & sections
+   ══════════════════════════════════════ */
+
+/* Panel scroll */
+#root > div > div > div:first-child {
+  gap: 8px !important;
+}
+
+/* Accordion section headers (Ped, Head Blend, etc.) */
+#root > div > div > div:first-child > div > div[style] > div,
+#root > div > div > div:first-child > div {
+  /* soft structure; precise cards via patched styled-components */
+}
+
+/* Nested option boxes: force flat fenix card look via attribute heuristics
+   Emotion/styled injects; we reinforce common patterns */
+#root small {
+  color: var(--fenix-muted) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+}
+
+#root span > small:first-child {
+  color: var(--fenix-text) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+/* ══════════════════════════════════════
+   Right action dock
+   ══════════════════════════════════════ */
+
+#fenix-action-dock {
+  position: fixed;
+  right: 24px;
+  top: calc(50% - 86px);
+  transform: translateY(-100%);
+  z-index: 46;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--fenix-radius);
+  border: 1px solid var(--fenix-border);
+  background: var(--fenix-surface);
+}
+
+#fenix-action-dock.is-shown {
+  display: flex;
+}
+
+/* Settings color panel */
+#fenix-settings-panel {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 0;
+  width: 240px;
+  max-height: min(420px, 70vh);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--fenix-radius);
+  border: 1px solid var(--fenix-border);
+  background: var(--fenix-surface);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(8px) scale(0.98);
+  transform-origin: top right;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s var(--fenix-spring),
+    visibility 0.2s ease;
+  z-index: 50;
+}
+
+#fenix-settings-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0) scale(1);
+}
+
+.fenix-settings-header h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fenix-text);
+}
+
+.fenix-settings-header span {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fenix-muted);
+}
+
+.fenix-settings-status {
+  min-height: 14px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fenix-muted);
+}
+
+.fenix-settings-status[data-kind="preview"] {
+  color: var(--fenix-accent-text);
+}
+
+.fenix-settings-status[data-kind="saved"] {
+  color: var(--fenix-ok);
+}
+
+.fenix-settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  padding-right: 2px;
+  max-height: 300px;
+}
+
+.fenix-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--fenix-radius-sm);
+  border: 1px solid var(--fenix-border);
+  background: var(--fenix-field);
+  cursor: pointer;
+}
+
+.fenix-settings-row:hover {
+  background: var(--fenix-field-hover);
+}
+
+.fenix-settings-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fenix-settings-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fenix-text);
+}
+
+.fenix-settings-hex {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--fenix-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.fenix-settings-row input[type="color"] {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--fenix-border);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fenix-settings-row input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.fenix-settings-row input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+.fenix-settings-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.fenix-settings-reset,
+.fenix-settings-save {
+  height: 34px;
+  border-radius: var(--fenix-radius-sm) !important;
+  border: 1px solid var(--fenix-border) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+
+.fenix-settings-reset {
+  background: var(--fenix-field) !important;
+  color: var(--fenix-muted) !important;
+}
+
+.fenix-settings-reset:hover {
+  background: var(--fenix-field-hover) !important;
+  color: var(--fenix-text) !important;
+}
+
+.fenix-settings-save {
+  background: var(--fenix-accent-soft) !important;
+  border-color: var(--fenix-accent) !important;
+  color: var(--fenix-accent-text) !important;
+}
+
+.fenix-settings-save:hover:not(.is-disabled) {
+  filter: brightness(1.08);
+}
+
+.fenix-settings-save.is-disabled,
+.fenix-settings-save:disabled {
+  opacity: 0.45;
+  cursor: default;
+  filter: none !important;
+}
+
+.fenix-settings-save.is-saved {
+  background: var(--fenix-ok-bg) !important;
+  border-color: var(--fenix-ok-border) !important;
+  color: var(--fenix-ok) !important;
+  opacity: 1;
+}
+
+.fenix-dock-btn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  color: var(--fenix-text);
+  background: var(--fenix-field) !important;
+  border: 1px solid var(--fenix-border) !important;
+  border-radius: var(--fenix-radius-sm) !important;
+  box-shadow: none !important;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s var(--fenix-spring) !important;
+}
+
+.fenix-dock-btn:hover {
+  background: var(--fenix-field-hover) !important;
+  border-color: #3e3e4c !important;
+}
+
+.fenix-dock-btn:active {
+  transform: scale(0.96) !important;
+}
+
+.fenix-dock-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  pointer-events: none;
+}
+
+.fenix-dock-btn.is-active {
+  color: var(--fenix-accent-text) !important;
+  background: var(--fenix-accent-soft) !important;
+  border-color: var(--fenix-accent) !important;
+}
+
+.fenix-dock-btn--save {
+  color: var(--fenix-ok) !important;
+  background: var(--fenix-ok-bg) !important;
+  border-color: var(--fenix-ok-border) !important;
+}
+
+.fenix-dock-btn--save:hover {
+  filter: brightness(1.08);
+}
+
+.fenix-dock-btn--exit {
+  color: var(--fenix-danger) !important;
+  background: var(--fenix-danger-bg) !important;
+  border-color: var(--fenix-danger-border) !important;
+}
+
+.fenix-dock-btn--exit:hover {
+  filter: brightness(1.08);
+}
+
+/* Style React Save / Exit to match dock */
+#root button[title="Save"],
+#root button[title="Exit"] {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: var(--fenix-radius-sm) !important;
+  box-shadow: none !important;
+}
+
+#root button[title="Save"] {
+  color: var(--fenix-ok) !important;
+  background: var(--fenix-ok-bg) !important;
+  border: 1px solid var(--fenix-ok-border) !important;
+}
+
+#root button[title="Save"]:hover {
+  filter: brightness(1.08);
+}
+
+#root button[title="Exit"] {
+  color: var(--fenix-danger) !important;
+  background: var(--fenix-danger-bg) !important;
+  border: 1px solid var(--fenix-danger-border) !important;
+}
+
+#root button[title="Exit"]:hover {
+  filter: brightness(1.08);
+}
+
+/* Align React Ww column with dock spacing */
+#root button[title="Save"],
+#root button[title="Exit"] {
+  margin: 0 !important;
+}
+
+/* Freecam zone */
+#fenix-freecam-zone {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#fenix-freecam-zone.is-visible {
+  display: block;
+}
+
+#fenix-freecam-zone.is-dragging {
+  cursor: grabbing;
+}
+
+.fenix-freecam-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: var(--fenix-radius-sm);
+  border: 1px solid var(--fenix-border);
+  background: var(--fenix-surface);
+  color: var(--fenix-muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+#fenix-freecam-zone.is-dragging .fenix-freecam-hint {
+  opacity: 0.4;
+}
