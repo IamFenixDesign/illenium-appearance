@@ -1,12 +1,12 @@
 # illenium-appearance
 
--- Features on this edit
- -- Free camera option
- -- Specific camera position on each bone of native FiveM
- -- Better design
- -- Customization UI in game
- -- Config to choose contextmenu o menu from ox_lib
- -- Menu position on config
+Features on this edit
+ - Free camera option
+ - Specific camera position on each bone of native FiveM
+ - Better design
+ - Customization UI in game
+ - Config to choose contextmenu o menu from ox_lib
+ - Menu position on config
 
 A replacement for clothing resources for various frameworks
 
