@@ -5,7 +5,8 @@ A replacement for clothing resources for various frameworks
 <div align='center'><h1><a href='https://docs-illenium-dev-phem.vercel.app/'>Documentation</a></h3></div>
 <br>
 
-<img src="https://i.imgur.com/ltLSMmh.png" alt="illenium-appearance with Tattoos" />
+<img src="https://i.imgur.com/EkHVJhL.jpeg" alt="illenium-appearance" />
+<img src="https://i.imgur.com/uB7a8p6.jpeg" alt="illenium-appearance color edits" />
 
 Discord: https://discord.com/invite/VSJmDejjK6
 
