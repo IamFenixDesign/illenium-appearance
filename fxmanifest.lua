@@ -91,7 +91,8 @@ shared_scripts {
 files {
   "web/dist/index.html",
   "web/dist/assets/*.js",
-  "web/dist/assets/*.css"
+  "web/dist/assets/*.css",
+  "web/dist/assets/*.json"
 }
 
 ui_page "web/dist/index.html"

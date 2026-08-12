@@ -334,8 +334,10 @@ local function getAppearanceSettings()
         }
     }
 
+    -- Tattoo catalog is loaded by NUI from web/dist/assets/tattoos-*.json
+    -- (NUI callbacks can't reliably return the ~140KB payload).
     local tattoos = {
-        items = conf.tattoos and filterTattoosByGender(Config.Tattoos) or {},
+        items = {},
         opacity = {
             min = 0.1,
             max = 1,

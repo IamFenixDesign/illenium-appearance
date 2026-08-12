@@ -12,6 +12,9 @@ end)
 
 RegisterNUICallback("appearance_get_data", function(_, cb)
     local appearanceData = client.getAppearance()
+    if appearanceData.tattoos then
+        client.setPedTattoos(cache.ped, appearanceData.tattoos)
+    end
     cb({ config = client.getConfig(), appearanceData = appearanceData })
 end)
 
