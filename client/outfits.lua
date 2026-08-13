@@ -128,6 +128,8 @@ function LoadJobOutfit(oData)
             label = oData.name
         })
     end
+
+    client.resetClothingToggles()
 end
 
 RegisterNetEvent("illenium-appearance:client:loadJobOutfit", LoadJobOutfit)

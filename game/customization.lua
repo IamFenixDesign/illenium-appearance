@@ -713,6 +713,40 @@ client.removeClothes = removeClothes
 
 function client.getHeading() return playerHeading end
 
+-- Shops that don't edit clothing (tattoo/barber/surgeon) must not persist
+-- p-clothing / dpclothing temporary unequips as the saved outfit.
+function client.preserveUneditedAppearance(appearance)
+    if not appearance or not config then return appearance end
+    if config.components and config.props then return appearance end
+
+    local saved = lib.callback.await("illenium-appearance:server:getAppearance", false)
+    if not saved then return appearance end
+
+    if not config.components then
+        appearance.components = saved.components
+    end
+    if not config.props then
+        appearance.props = saved.props
+    end
+    if not config.headOverlays then
+        appearance.hair = saved.hair
+        appearance.headOverlays = saved.headOverlays
+    end
+    if not config.headBlend then
+        appearance.headBlend = saved.headBlend
+        appearance.faceFeatures = saved.faceFeatures
+        appearance.eyeColor = saved.eyeColor
+    end
+    if not config.tattoos then
+        appearance.tattoos = saved.tattoos
+    end
+    if not config.ped then
+        appearance.model = saved.model
+    end
+
+    return appearance
+end
+
 local callback
 function client.startPlayerCustomization(cb, conf)
     callback = cb
@@ -722,6 +756,12 @@ function client.startPlayerCustomization(cb, conf)
     freeCamEnabled = false
     freeCamUserAdjusted = false
     isCameraInterpolating = false
+
+    -- Clothing/barber/surgeon: put toggled pieces back on before we snapshot.
+    -- Tattoo shop skips this so the player can stay undressed to see skin.
+    if client.shouldEquipClothingToggles(conf) then
+        client.equipClothingToggles()
+    end
 
     playerCoords = GetEntityCoords(cache.ped, true)
     playerHeading = GetEntityHeading(cache.ped)

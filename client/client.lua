@@ -64,6 +64,7 @@ function InitAppearance()
         end
 
         client.setPlayerAppearance(appearance)
+        client.resetClothingToggles()
         if Config.PersistUniforms then
             LoadPlayerUniform()
         end
@@ -133,6 +134,11 @@ function OpenShop(config, isPedMenu, shopType)
                     TriggerServerEvent("illenium-appearance:server:chargeCustomer", shopType)
                 end
                 TriggerServerEvent("illenium-appearance:server:saveAppearance", appearance)
+                -- Clothing shop: drop p-clothing cache so /hat etc. cannot roll back the new outfit.
+                -- Tattoo shop: keep the cache so the player stays undressed until they toggle back.
+                if client.shouldEquipClothingToggles(config) then
+                    client.resetClothingToggles()
+                end
             else
                 lib.notify({
                     title = _L("cancelled.title"),
@@ -728,6 +734,10 @@ RegisterNetEvent("illenium-appearance:client:openClothingShopMenu", function(isP
     if type(isPedMenu) == "table" then
         isPedMenu = false
     end
+    -- /pedmenu restores the real outfit; p-clothing must unmark toggled pieces
+    if isPedMenu then
+        client.equipClothingToggles()
+    end
     OpenMenu(isPedMenu, "default")
 end)
 
@@ -776,6 +786,7 @@ RegisterNetEvent("illenium-appearance:client:changeOutfit", function(data)
             TriggerServerEvent("illenium-appearance:server:saveAppearance", appearance)
         end
         Framework.CachePed()
+        client.resetClothingToggles()
     end
 end)
 
@@ -826,6 +837,7 @@ RegisterNetEvent("illenium-appearance:client:reloadSkin", function(bypassChecks)
             return
         end
         client.setPlayerAppearance(appearance)
+        client.resetClothingToggles()
         if Config.PersistUniforms then
             LoadPlayerUniform(bypassChecks)
         end

@@ -12,6 +12,9 @@ Config.ChargePerTattoo = true -- Charge players per tattoo. Config.TattooCost wi
 -- Only set this to true if you're using rcore_tattoos
 Config.RCoreTattoosCompatibility = false
 
+-- p-clothing / dpclothing: restore toggled clothes before shops and clear their cache after appearance changes
+Config.ClothingToggleCompatibility = true
+
 Config.AsynchronousLoading = false -- Change this to false if you want the NUI data to load before displaying the appearance UI
 
 Config.MenuPosition = "middle" -- "top-left" | "middle" | "bottom-left"

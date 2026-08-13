@@ -155,11 +155,14 @@ RegisterNUICallback("appearance_remove_clothes", function(clothes, cb)
 end)
 
 RegisterNUICallback("appearance_save", function(appearance, cb)
-    cb(1)
+    -- Restore clothes removed in this menu (illenium UI). Do it before
+    -- preserveUneditedAppearance so p-clothing toggles are not put back on.
     client.wearClothes(appearance, "head")
     client.wearClothes(appearance, "body")
     client.wearClothes(appearance, "bottom")
+    appearance = client.preserveUneditedAppearance(appearance)
     client.exitPlayerCustomization(appearance)
+    cb(1)
 end)
 
 RegisterNUICallback("appearance_exit", function(_, cb)
