@@ -193,6 +193,10 @@ Locales["ar"] = {
         title = "إلغاء التخصيص",
         description = "لم يتم حفظ التخصيص"
     },
+    settingsAccess = {
+        title = "بدون صلاحية",
+        description = "ليس لديك صلاحية لاستخدام إعدادات الألوان."
+    },
     outfits = {
         import = {
             title = "أدخل رمز المظهر",

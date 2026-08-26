@@ -133,6 +133,7 @@
   let uiOpen = false;
   let moveMode = false;
   let settingsOpen = false;
+  let settingsPending = false;
   let dirty = false;
   let dragging = false;
   let lastX = 0;
@@ -140,6 +141,7 @@
 
   let savedColors = loadColors();
   let draftColors = cloneColors(savedColors);
+  let savePending = false;
 
   function defaultColors() {
     const out = {};
@@ -249,19 +251,66 @@
     setStatus(dirty ? settingsLocale.preview : "", dirty ? "preview" : "");
   }
 
-  function saveDraft() {
-    savedColors = cloneColors(draftColors);
+  function applyGlobalColors(map, fromRemote) {
+    if (!map || typeof map !== "object") return;
+    savedColors = Object.assign(defaultColors(), map);
     persistColors(savedColors);
-    applyColors(savedColors);
-    setDirty(false);
-    if (saveBtn) {
-      saveBtn.textContent = settingsLocale.saved;
-      saveBtn.classList.add("is-saved");
+    if (settingsOpen && dirty && fromRemote) {
+      setDirty(JSON.stringify(draftColors) !== JSON.stringify(savedColors));
+      return;
     }
-    setStatus(settingsLocale.savedStatus, "saved");
-    setTimeout(function () {
-      if (!dirty) setStatus("", "");
-    }, 1600);
+    draftColors = cloneColors(savedColors);
+    applyColors(savedColors);
+    syncInputsFromDraft();
+    setDirty(false);
+  }
+
+  function fetchGlobalColors() {
+    return fetch(`https://${resourceName}/appearance_get_colors`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=UTF-8" },
+      body: "{}",
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (map) {
+        applyGlobalColors(map, true);
+        return map;
+      })
+      .catch(function () {});
+  }
+
+  function saveDraft() {
+    if (savePending) return;
+    savePending = true;
+    fetch(`https://${resourceName}/appearance_save_colors`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=UTF-8" },
+      body: JSON.stringify(draftColors),
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (ok) {
+        if (!ok) return;
+        savedColors = cloneColors(draftColors);
+        persistColors(savedColors);
+        applyColors(savedColors);
+        setDirty(false);
+        if (saveBtn) {
+          saveBtn.textContent = settingsLocale.saved;
+          saveBtn.classList.add("is-saved");
+        }
+        setStatus(settingsLocale.savedStatus, "saved");
+        setTimeout(function () {
+          if (!dirty) setStatus("", "");
+        }, 1600);
+      })
+      .catch(function () {})
+      .finally(function () {
+        savePending = false;
+      });
   }
 
   function makeDockBtn(id, title, icon, className) {
@@ -457,7 +506,27 @@
     settingsBtn.addEventListener("click", function (event) {
       event.preventDefault();
       event.stopPropagation();
-      setSettingsOpen(!settingsOpen);
+      if (settingsOpen) {
+        setSettingsOpen(false);
+        return;
+      }
+      if (settingsPending) return;
+      settingsPending = true;
+      fetch(`https://${resourceName}/appearance_can_open_settings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        body: "{}",
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (allowed) {
+          if (allowed) setSettingsOpen(true);
+        })
+        .catch(function () {})
+        .finally(function () {
+          settingsPending = false;
+        });
     });
 
     dock.appendChild(resetBtn);
@@ -618,9 +687,14 @@
   window.addEventListener("message", function (event) {
     const data = event.data;
     if (!data || !data.type) return;
+    if (data.type === "appearance_set_colors") {
+      applyGlobalColors(data.payload, true);
+      return;
+    }
     if (data.type === "appearance_display") {
       const payload = data.payload || {};
       applyMenuPosition(payload.menuPosition);
+      if (payload.colors) applyGlobalColors(payload.colors, true);
       fetchLocales();
       setUiOpen(true);
     }
@@ -628,4 +702,5 @@
   });
 
   fetchLocales();
+  fetchGlobalColors();
 })();

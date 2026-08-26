@@ -193,6 +193,10 @@ Locales["cs"] = {
         title = "Zrušené přizpůsobení",
         description = "Přizpůsobení neuloženo"
     },
+    settingsAccess = {
+        title = "Bez oprávnění",
+        description = "Nemáte oprávnění používat nastavení barev."
+    },
     outfits = {
         import = {
             title = "Zadat kód oděvu",

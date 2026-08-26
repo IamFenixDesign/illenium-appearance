@@ -162,13 +162,123 @@ lib.callback.register("illenium-appearance:server:getUniform", function(source)
     return uniformCache[Framework.GetPlayerID(source)]
 end)
 
+local creatingCharacters = {}
+
+local function genderKeyFromValue(gender)
+    if gender == "Female" or gender == "female" or gender == "f" or gender == 1 or gender == "1" then
+        return "Female"
+    end
+    if gender == "Male" or gender == "male" or gender == "m" or gender == 0 or gender == "0" then
+        return "Male"
+    end
+    return nil
+end
+
+local function resolveGenderKey(src, gender)
+    local key = genderKeyFromValue(gender)
+    if key then return key end
+    if Framework.GetPlayerGender then
+        return Framework.GetPlayerGender(src) or "Male"
+    end
+    return "Male"
+end
+
+local function playerHasAppearance(citizenID)
+    if not citizenID then return false end
+    if Database.PlayerSkins and Database.PlayerSkins.GetByCitizenID then
+        local row = Database.PlayerSkins.GetByCitizenID(citizenID)
+        if row then return true end
+    end
+    if Framework.GetAppearance then
+        local ok, existing = pcall(Framework.GetAppearance, citizenID)
+        if ok and existing then return true end
+    end
+    return false
+end
+
+--- Default appearance for a new character (mp_m / mp_f according to gender).
+--- gender: "Male"/"Female", 0/1, or "m"/"f"
+function GetInitialAppearance(gender)
+    local key = genderKeyFromValue(gender) or "Male"
+    local clothes = Config.InitialPlayerClothes[key]
+    return {
+        model = clothes.Model,
+        components = clothes.Components,
+        props = clothes.Props,
+        hair = clothes.Hair,
+        tattoos = {},
+        eyeColor = 0,
+        headBlend = key == "Female" and {
+            shapeFirst = 45,
+            shapeSecond = 21,
+            shapeThird = 0,
+            skinFirst = 20,
+            skinSecond = 15,
+            skinThird = 0,
+            shapeMix = 0.3,
+            skinMix = 0.1,
+            thirdMix = 0,
+        } or {
+            shapeFirst = 0,
+            shapeSecond = 0,
+            shapeThird = 0,
+            skinFirst = 0,
+            skinSecond = 0,
+            skinThird = 0,
+            shapeMix = 0,
+            skinMix = 0,
+            thirdMix = 0,
+        }
+    }
+end
+
+--- Saves mp_m_freemode_01 / mp_f_freemode_01 as the character's skin when none exists yet.
+--- Used so a crash during character creation still loads the correct gender ped.
+function EnsureDefaultAppearance(citizenID, gender, src)
+    if not citizenID or not Framework.SaveAppearance then return false end
+    if playerHasAppearance(citizenID) then return false end
+
+    local key = genderKeyFromValue(gender)
+    if not key and src then
+        key = resolveGenderKey(src, gender)
+    end
+    key = key or "Male"
+
+    Framework.SaveAppearance(GetInitialAppearance(key), citizenID)
+    return true
+end
+
+RegisterNetEvent("illenium-appearance:server:beginCharacterCreation", function(gender)
+    local src = source
+    local citizenID = Framework.GetPlayerID(src)
+    if not citizenID then return end
+
+    creatingCharacters[src] = {
+        citizenid = citizenID,
+        gender = gender
+    }
+    EnsureDefaultAppearance(citizenID, gender, src)
+end)
+
 RegisterServerEvent("illenium-appearance:server:saveAppearance", function(appearance)
     local src = source
     local citizenID = Framework.GetPlayerID(src)
+    creatingCharacters[src] = nil
     if appearance ~= nil then
         Framework.SaveAppearance(appearance, citizenID)
     end
 end)
+
+AddEventHandler("playerDropped", function()
+    local src = source
+    local pending = creatingCharacters[src]
+    creatingCharacters[src] = nil
+    if not pending then return end
+    EnsureDefaultAppearance(pending.citizenid, pending.gender, src)
+end)
+
+exports("EnsureDefaultAppearance", EnsureDefaultAppearance)
+exports("GetInitialAppearance", GetInitialAppearance)
 
 RegisterServerEvent("illenium-appearance:server:chargeCustomer", function(shopType)
     local src = source

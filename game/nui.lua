@@ -10,6 +10,64 @@ RegisterNUICallback("appearance_get_settings", function(_, cb)
     cb({ appearanceSettings = client.getAppearanceSettings() })
 end)
 
+RegisterNUICallback("appearance_can_open_settings", function(_, cb)
+    local allowed = true
+    if Config.SettingsAce then
+        allowed = lib.callback.await("illenium-appearance:server:HasSettingsAce", false) == true
+    end
+
+    if not allowed then
+        lib.notify({
+            title = _L("settingsAccess.title"),
+            description = _L("settingsAccess.description"),
+            type = "error",
+            position = Config.NotifyOptions.position
+        })
+    end
+
+    cb(allowed)
+end)
+
+local function applyThemeColors(colors)
+    if type(colors) ~= "table" then return end
+    client.themeColors = colors
+    SendNuiMessage(json.encode({
+        type = "appearance_set_colors",
+        payload = colors
+    }))
+end
+
+RegisterNetEvent("illenium-appearance:client:setThemeColors", function(colors)
+    applyThemeColors(colors)
+end)
+
+CreateThread(function()
+    applyThemeColors(lib.callback.await("illenium-appearance:server:GetThemeColors", false))
+end)
+
+RegisterNUICallback("appearance_get_colors", function(_, cb)
+    if not client.themeColors then
+        client.themeColors = lib.callback.await("illenium-appearance:server:GetThemeColors", false)
+    end
+    cb(client.themeColors or {})
+end)
+
+RegisterNUICallback("appearance_save_colors", function(colors, cb)
+    local saved = lib.callback.await("illenium-appearance:server:SaveThemeColors", false, colors)
+    if not saved then
+        lib.notify({
+            title = _L("settingsAccess.title"),
+            description = _L("settingsAccess.description"),
+            type = "error",
+            position = Config.NotifyOptions.position
+        })
+        cb(false)
+        return
+    end
+    applyThemeColors(saved)
+    cb(true)
+end)
+
 RegisterNUICallback("appearance_get_data", function(_, cb)
     local appearanceData = client.getAppearance()
     if appearanceData.tattoos then

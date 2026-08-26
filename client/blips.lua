@@ -93,3 +93,22 @@ function ResetBlips()
         SetupAllBlips()
     end
 end
+
+exports('GetPauseMapBlips', function()
+    local list = {}
+    if Config.ShowBlips == 0 then return list end
+    for k in pairs(Config.Stores or {}) do
+        local shop = Config.Stores[k]
+        local blipConfig = Config.Blips and Config.Blips[shop.type]
+        if blipConfig and ShowBlip(blipConfig, shop) and shop.coords then
+            list[#list + 1] = {
+                x = shop.coords.x,
+                y = shop.coords.y,
+                sprite = blipConfig.Sprite or 73,
+                color = blipConfig.Color or 0,
+                name = blipConfig.Name or shop.type,
+            }
+        end
+    end
+    return list
+end)

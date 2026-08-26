@@ -60,7 +60,13 @@ function InitAppearance()
     Framework.UpdatePlayerData()
     lib.callback("illenium-appearance:server:getAppearance", false, function(appearance)
         if not appearance then
-            return
+            local gender = Framework.GetGender(true)
+            SetInitialClothes(Config.InitialPlayerClothes[gender])
+            appearance = client.getPedAppearance(cache.ped)
+            if type(appearance) == "table" then
+                appearance.model = Config.InitialPlayerClothes[gender].Model
+            end
+            TriggerServerEvent("illenium-appearance:server:saveAppearance", appearance)
         end
 
         client.setPlayerAppearance(appearance)
@@ -110,10 +116,16 @@ end
 
 function InitializeCharacter(gender, onSubmit, onCancel)
     SetInitialClothes(Config.InitialPlayerClothes[gender])
+    -- Persist the gender freemode ped immediately so a crash / disconnect
+    -- during creation still loads mp_m_freemode_01 or mp_f_freemode_01.
+    TriggerServerEvent("illenium-appearance:server:beginCharacterCreation", gender)
     local config = getNewCharacterConfig()
     TriggerServerEvent("illenium-appearance:server:ChangeRoutingBucket")
     client.startPlayerCustomization(function(appearance)
         if (appearance) then
+            if type(appearance) == "table" then
+                appearance.model = Config.InitialPlayerClothes[gender].Model
+            end
             TriggerServerEvent("illenium-appearance:server:saveAppearance", appearance)
             if onSubmit then
                 onSubmit()

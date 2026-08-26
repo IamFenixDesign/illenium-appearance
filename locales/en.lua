@@ -193,6 +193,10 @@ Locales["en"] = {
         title = "Cancelled Customization",
         description = "Customization not saved"
     },
+    settingsAccess = {
+        title = "No permission",
+        description = "You do not have permission to use the color settings."
+    },
     outfits = {
         import = {
             title = "Enter outfit code",

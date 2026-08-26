@@ -193,6 +193,10 @@ Locales["es-ES"] = {
         title = "Personalización cancelada",
         description = "Personalización no guardada"
     },
+    settingsAccess = {
+        title = "Sin permiso",
+        description = "No tienes permiso para usar los ajustes de colores."
+    },
     outfits = {
         import = {
             title = "Ingresar código de atuendo",

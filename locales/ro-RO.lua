@@ -193,6 +193,10 @@ Locales["ro-RO"] = {
         title = "Personalizare anulată",
         description = "Personalizarea nu a fost salvată"
     },
+    settingsAccess = {
+        title = "Fără permisiune",
+        description = "Nu ai permisiunea de a folosi setările de culori."
+    },
     outfits = {
         import = {
             title = "Introduceți codul outfit-ului",

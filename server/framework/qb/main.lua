@@ -9,6 +9,14 @@ function Framework.GetPlayerID(src)
     end
 end
 
+function Framework.GetPlayerGender(src)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player and Player.PlayerData and Player.PlayerData.charinfo and Player.PlayerData.charinfo.gender == 1 then
+        return "Female"
+    end
+    return "Male"
+end
+
 function Framework.HasMoney(src, type, money)
     local Player = QBCore.Functions.GetPlayer(src)
     return Player.PlayerData.money[type] >= money

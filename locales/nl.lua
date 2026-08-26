@@ -193,6 +193,10 @@ Locales["nl"] = {
         title = "Customisatie Geannuleerd",
         description = "Customisatie niet opgeslagen"
     },
+    settingsAccess = {
+        title = "Geen toestemming",
+        description = "Je hebt geen toestemming om de kleurinstellingen te gebruiken."
+    },
     outfits = {
         import = {
             title = "Voer outfit code in",

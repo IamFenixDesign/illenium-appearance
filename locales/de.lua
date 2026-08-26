@@ -193,6 +193,10 @@ Locales["de"] = {
         title = "Benutzerdefinierte Anpassung abgebrochen",
         description = "Anpassung nicht gespeichert"
     },
+    settingsAccess = {
+        title = "Keine Berechtigung",
+        description = "Du hast keine Berechtigung, die Farbeinstellungen zu verwenden."
+    },
     outfits = {
         import = {
             title = "Geben Sie den Kostüm-Code ein",

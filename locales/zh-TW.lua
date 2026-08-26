@@ -193,6 +193,10 @@ Locales["zh-TW"] = {
         title = "取消客製化",
         description = "未儲存客製化"
     },
+    settingsAccess = {
+        title = "沒有權限",
+        description = "你沒有權限使用顏色設定。"
+    },
     outfits = {
         import = {
             title = "輸入服裝代碼",

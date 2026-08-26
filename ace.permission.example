@@ -1,0 +1,5 @@
+All admins group example
+- add_ace group.admin fenix.appearance allow
+
+Individual example
+-add_ace identifier.license:xxxxx fenix.appearance allow

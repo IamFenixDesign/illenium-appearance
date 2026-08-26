@@ -193,6 +193,10 @@ Locales["id"] = {
         title = "Kostumisasi di batalkan",
         description = "Kustomisasi tidak disimpan"
     },
+    settingsAccess = {
+        title = "Tidak ada izin",
+        description = "Kamu tidak memiliki izin untuk menggunakan pengaturan warna."
+    },
     outfits = {
         import = {
             title = "Mauskkan kode pakaian",

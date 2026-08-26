@@ -41,6 +41,8 @@ Config.EnablePedsForPlayerOutfitRooms = true
 Config.EnablePedMenu = true
 Config.PedMenuGroup = "group.admin"
 
+Config.SettingsAce = true
+
 Config.PedMenuType = "contextmenu" -- "contextmenu"
 
 Config.EnableJobOutfitsCommand = false -- Enables /joboutfits and /gangoutfits commands

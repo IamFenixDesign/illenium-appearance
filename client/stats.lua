@@ -15,7 +15,15 @@ end
 function RestorePlayerStats()
     if stats then
         SetEntityMaxHealth(cache.ped, 200)
-        Wait(1000) -- Safety Delay
+        local skipDelay = false
+        pcall(function()
+            skipDelay = LocalPlayer.state.fenixHandlingSkin == true
+        end)
+        if skipDelay then
+            Wait(0)
+        else
+            Wait(1000) -- Safety Delay
+        end
         SetEntityHealth(cache.ped, stats.health)
         SetPedArmour(cache.ped, stats.armour)
         ResetRechargeMultipliers()

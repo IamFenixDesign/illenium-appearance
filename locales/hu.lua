@@ -193,6 +193,10 @@ Locales["hu"] = {
         title = "Testreszabás Visszavonva",
         description = "Testreszabás Nincs Mentve"
     },
+    settingsAccess = {
+        title = "Nincs jogosultság",
+        description = "Nincs jogosultságod a színbeállítások használatához."
+    },
     outfits = {
         import = {
             title = "Írd be az ruházat kódját",

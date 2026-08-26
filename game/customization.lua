@@ -779,7 +779,8 @@ function client.startPlayerCustomization(cb, conf)
         type = "appearance_display",
         payload = {
             asynchronous = Config.AsynchronousLoading,
-            menuPosition = Config.MenuPosition or "middle"
+            menuPosition = Config.MenuPosition or "middle",
+            colors = client.themeColors
         }
     }))
 
@@ -803,7 +804,17 @@ function client.exitPlayerCustomization(appearance)
     if Config.HideRadar then DisplayRadar(true) end
 
     ClearPedTasksImmediately(cache.ped)
-    FreezeEntityPosition(cache.ped, false)
+    local keepFrozen = false
+    pcall(function()
+        keepFrozen = LocalPlayer.state.fenixHandlingSkin == true
+    end)
+    if keepFrozen then
+        FreezeEntityPosition(cache.ped, true)
+        SetPedCanRagdoll(cache.ped, false)
+        SetEntityVelocity(cache.ped, 0.0, 0.0, 0.0)
+    else
+        FreezeEntityPosition(cache.ped, false)
+    end
     SetEntityInvincible(cache.ped, false)
 
     SendNuiMessage(json.encode({
