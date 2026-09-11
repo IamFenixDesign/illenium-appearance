@@ -3,9 +3,13 @@ local Points = {}
 local client = client
 
 local function ShowBlip(blipConfig, blip)
-    if blip.job and blip.job ~= client.job.name then
+    if not blipConfig or not blip then
         return false
-    elseif blip.gang and blip.gang ~= client.gang.name then
+    end
+
+    if blip.job and (not client.job or blip.job ~= client.job.name) then
+        return false
+    elseif blip.gang and (not client.gang or blip.gang ~= client.gang.name) then
         return false
     end
 
@@ -49,20 +53,20 @@ local function ClearPoints()
 end
 
 local function SetupAllBlips()
-    for k in pairs(Config.Stores) do
+    for k in pairs(Config.Stores or {}) do
         local shop = Config.Stores[k]
-        local blipConfig = Config.Blips[shop.type]
-        if ShowBlip(blipConfig, shop) then
+        local blipConfig = Config.Blips and Config.Blips[shop.type]
+        if blipConfig and shop.coords and ShowBlip(blipConfig, shop) then
             Blips[#Blips + 1] = CreateBlip(blipConfig, shop.coords)
         end
     end
 end
 
 local function SetupDistanceBlips()
-    for k in pairs(Config.Stores) do
+    for k in pairs(Config.Stores or {}) do
         local shop = Config.Stores[k]
-        local blipConfig = Config.Blips[shop.type]
-        if ShowBlip(blipConfig, shop) then
+        local blipConfig = Config.Blips and Config.Blips[shop.type]
+        if blipConfig and shop.coords and ShowBlip(blipConfig, shop) then
             Points[#Points + 1] = lib.points.new({
                 coords = shop.coords,
                 distance = Config.BlipDistance or 60,
